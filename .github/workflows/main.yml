@@ -10,11 +10,11 @@ jobs:
           echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
           sudo apt update && sudo apt install ngrok
           ngrok config add-authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
-      - name: Start Android
+      - name: Start Android Server
         run: |
           docker run -d -p 5900:5900 --privileged budtmo/docker-android-x86-11.0
-          sleep 40
-          echo "অ্যান্ড্রয়েড রেডি হচ্ছে..."
+          sleep 60
+          echo "লিঙ্কটি এখানে দেখুন:"
           curl --silent http://127.0.0.1:4040/api/tunnels | jq -r '.tunnels[0].public_url'
           ngrok tcp 5900
           
