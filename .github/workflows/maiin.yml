@@ -1,0 +1,18 @@
+name: Android-Cloud-Free
+on: workflow_dispatch
+jobs:
+  run-vps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cloudflared
+        run: |
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb
+      - name: Start Cloud Android
+        run: |
+          docker run -d -p 5900:5900 --privileged accetto/ubuntu-vnc-xfce-chromium-g3
+          sleep 15
+          echo "কানেক্ট করার লিঙ্কটি নিচে পাবেন (এটি আসার জন্য ৩০ সেকেন্ড অপেক্ষা করুন):"
+          # ক্লাউডফ্লেয়ার টানেল চালু করা
+          cloudflared tunnel --url tcp://localhost:5900
+          
